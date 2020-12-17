@@ -223,14 +223,6 @@ public class GuiQuestLines extends GuiScreenCanvas implements IPEventListener, I
         btnDescToggle.setTooltip(Collections.singletonList(QuestTranslation.translate("betterquesting.gui.description")));
         cvBackground.addPanel(btnDescToggle);
         
-        PanelButton fitView = new PanelButton(new GuiTransform(GuiAlign.TOP_LEFT, 8, 72, 32, 16, -2), 5, "");
-        fitView.setIcon(PresetIcon.ICON_BOX_FIT.getTexture());
-        fitView.setClickAction((b) -> {
-            if(cvQuest.getQuestLine() != null) cvQuest.fitToWindow();
-        });
-        fitView.setTooltip(Collections.singletonList(QuestTranslation.translate("betterquesting.btn.zoom_fit")));
-        cvBackground.addPanel(fitView);
-        
         claimAll = new PanelButton(new GuiTransform(GuiAlign.TOP_LEFT, 8, 56, 32, 16, -2), -1, "");
         claimAll.setIcon(PresetIcon.ICON_CHEST_ALL.getTexture());
         claimAll.setClickAction((b) -> {
@@ -253,7 +245,15 @@ public class GuiQuestLines extends GuiScreenCanvas implements IPEventListener, I
         });
         claimAll.setTooltip(Collections.singletonList(QuestTranslation.translate("betterquesting.btn.claim_all")));
         cvBackground.addPanel(claimAll);
-        
+
+        PanelButton fitView = new PanelButton(new GuiTransform(GuiAlign.TOP_LEFT, 8, 72, 32, 16, -2), 5, "");
+        fitView.setIcon(PresetIcon.ICON_BOX_FIT.getTexture());
+        fitView.setClickAction((b) -> {
+            if(cvQuest.getQuestLine() != null) cvQuest.fitToWindow();
+        });
+        fitView.setTooltip(Collections.singletonList(QuestTranslation.translate("betterquesting.btn.zoom_fit")));
+        cvBackground.addPanel(fitView);
+
         // The Jester1147 button
         PanelButton btnTrayLock = new PanelButton(new GuiTransform(GuiAlign.TOP_LEFT, 8, 88, 32, 16, -2), -1, "").setIcon(trayLock ? PresetIcon.ICON_LOCKED.getTexture() : PresetIcon.ICON_UNLOCKED.getTexture());
         btnTrayLock.setClickAction((b) -> {
