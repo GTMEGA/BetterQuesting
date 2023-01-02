@@ -5,14 +5,18 @@ import betterquesting.api.api.QuestingAPI;
 import betterquesting.api.enums.EnumQuestState;
 import betterquesting.api.properties.NativeProps;
 import betterquesting.api.questing.IQuest;
+import betterquesting.api.questing.IQuest.RequirementType;
 import betterquesting.api.questing.IQuestLine;
 import betterquesting.api.questing.IQuestLineEntry;
+import betterquesting.api.storage.BQ_Settings;
 import betterquesting.api2.cache.QuestCache;
 import betterquesting.api2.client.gui.controls.PanelButtonQuest;
 import betterquesting.api2.client.gui.misc.GuiRectangle;
 import betterquesting.api2.client.gui.misc.IGuiRect;
 import betterquesting.api2.client.gui.panels.content.PanelGeneric;
 import betterquesting.api2.client.gui.panels.content.PanelLine;
+import betterquesting.api2.client.gui.panels.content.PanelLine.ShouldDrawPredicate;
+import betterquesting.api2.client.gui.resources.colors.GuiColorPulse;
 import betterquesting.api2.client.gui.resources.colors.IGuiColor;
 import betterquesting.api2.client.gui.resources.lines.IGuiLine;
 import betterquesting.api2.client.gui.resources.textures.SimpleTexture;
@@ -23,6 +27,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StringUtils;
+import org.lwjgl.input.Keyboard;
 
 import java.util.*;
 import java.util.Map.Entry;
@@ -128,40 +133,55 @@ public class CanvasQuestLine extends CanvasScrolling
             boolean main = quest.getValue().getProperty(NativeProps.MAIN);
             EnumQuestState qState = quest.getValue().getState(player);
             IGuiLine lineRender = null;
-            IGuiColor txLineCol = null;
+            IGuiColor defaultTxLineCol = null;
             
             switch(qState)
             {
                 case LOCKED:
                     lineRender = PresetLine.QUEST_LOCKED.getLine();
-                    txLineCol = PresetColor.QUEST_LINE_LOCKED.getColor();
+                    defaultTxLineCol = PresetColor.QUEST_LINE_LOCKED.getColor();
                     break;
                 case UNLOCKED:
                     lineRender = PresetLine.QUEST_UNLOCKED.getLine();
-                    txLineCol = PresetColor.QUEST_LINE_UNLOCKED.getColor();
+                    defaultTxLineCol = PresetColor.QUEST_LINE_UNLOCKED.getColor();
                     break;
                 case UNCLAIMED:
                     lineRender = PresetLine.QUEST_PENDING.getLine();
-                    txLineCol = PresetColor.QUEST_LINE_PENDING.getColor();
+                    defaultTxLineCol = PresetColor.QUEST_LINE_PENDING.getColor();
                     break;
                 case COMPLETED:
                     lineRender = PresetLine.QUEST_COMPLETE.getLine();
-                    txLineCol = PresetColor.QUEST_LINE_COMPLETE.getColor();
+                    defaultTxLineCol = PresetColor.QUEST_LINE_COMPLETE.getColor();
                     break;
                 case REPEATABLE:
                     lineRender = PresetLine.QUEST_REPEATABLE.getLine();
-                    txLineCol = PresetColor.QUEST_LINE_REPEATABLE.getColor();
+                    defaultTxLineCol = PresetColor.QUEST_LINE_REPEATABLE.getColor();
                     break;
             }
             
             for(DBEntry<IQuest> req : reqList)
             {
                 PanelButtonQuest parBtn = questBtns.get(req.getID());
+                IGuiColor txLineCol = defaultTxLineCol;
                 
                 if(parBtn != null)
                 {
-                    PanelLine prLine = new PanelLine(parBtn.getTransform(), entry.getValue().getTransform(), lineRender, main? 8 : 4, txLineCol, 1);
-                    this.addPanel(prLine);
+                    RequirementType type = quest.getValue().getRequirementType(req.getID());
+                    ShouldDrawPredicate predicate = null;
+                    switch (type) {
+                        case NORMAL:
+                            break;
+                        case IMPLICIT:
+                            if (BQ_Settings.alwaysDrawImplicit)
+                                break;
+                            predicate = (mx, my, partialTicks) -> questBtns.get(req.getID()).rect.contains(mx, my) || questBtns.get(quest.getID()).rect.contains(mx, my) || Keyboard.isKeyDown(Keyboard.KEY_LSHIFT) || Keyboard.isKeyDown(Keyboard.KEY_RSHIFT);
+                            txLineCol = new GuiColorPulse(txLineCol, PresetColor.QUEST_LINE_IMPLICIT_MIXIN.getColor(), 2F, 0F);
+                            break;
+                        default:
+                            // bail early
+                            continue;
+                    }
+                    this.addPanel(new PanelLine(parBtn.getTransform(), entry.getValue().getTransform(), lineRender, main ? 8 : 4, txLineCol, 1, predicate));
                 }
             }
         }

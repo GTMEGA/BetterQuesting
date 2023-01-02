@@ -14,6 +14,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.ResourceLocation;
 
 import javax.annotation.Nullable;
+import java.util.List;
 import java.util.UUID;
 
 public interface ITask extends INBTSaveLoad<NBTTagCompound>, INBTProgress<NBTTagCompound>
@@ -35,4 +36,15 @@ public interface ITask extends INBTSaveLoad<NBTTagCompound>, INBTProgress<NBTTag
 	@Nullable
 	@SideOnly(Side.CLIENT)
 	GuiScreen getTaskEditor(GuiScreen parent, DBEntry<IQuest> quest);
+
+	/**
+	 * Tasks that set this to true will be ignored by quest completion logic.
+	 */
+	default boolean ignored(UUID uuid) {
+		return false;
+	}
+
+	default List<String> getTextsForSearch() {
+		return null;
+	}
 }

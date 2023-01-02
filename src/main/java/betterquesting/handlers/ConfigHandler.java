@@ -24,6 +24,7 @@ public class ConfigHandler
 		BQ_Settings.useBookmark = config.getBoolean("Use Quest Bookmark", Configuration.CATEGORY_GENERAL, true, "Jumps the user to the last opened quest");
 		BQ_Settings.guiWidth = config.getInt("Max GUI Width", Configuration.CATEGORY_GENERAL, -1, -1, Integer.MAX_VALUE, "Clamps the max UI width (-1 to disable)");
 		BQ_Settings.guiHeight = config.getInt("Max GUI Height", Configuration.CATEGORY_GENERAL, -1, -1, Integer.MAX_VALUE, "Clamps the max UI height (-1 to disable)");
+		BQ_Settings.textWidthCorrection = config.getFloat("Text Width Correction", Configuration.CATEGORY_GENERAL, 1F, 0.01F, 10.0F, "Correcting the width of split text");
 		
 		BQ_Settings.scrollMultiplier = config.getFloat("Scroll multiplier", Configuration.CATEGORY_GENERAL, 1F, 0F, 10F, "Scrolling multiplier");
 
@@ -39,8 +40,10 @@ public class ConfigHandler
 
 		BQ_Settings.skipHome = config.getBoolean("Skip home", Configuration.CATEGORY_GENERAL, false, "If true will skip home gui and open quests at startup. This property will be changed by the mod itself.");
     
-		BQ_Settings.lockTray = config.getBoolean("Lock tray", Configuration.CATEGORY_GENERAL, false, "Is quest chapters list locked and opened on start");
-		BQ_Settings.viewMode = config.getBoolean("View mode", Configuration.CATEGORY_GENERAL, false, "If view mode enabled, User can view all quests");
+		BQ_Settings.lockTray = config.getBoolean("Lock tray", Configuration.CATEGORY_GENERAL, false, "Is quest chapters list locked and opened on start.");
+		BQ_Settings.viewMode = config.getBoolean("View mode", Configuration.CATEGORY_GENERAL, false, "If true, user can view not-yet-unlocked quests that are not hidden or secret. This property can be changed by the GUI.");
+		BQ_Settings.viewModeBtn = config.getBoolean("View mode button", Configuration.CATEGORY_GENERAL, false, "If true, show view mode button.");
+		BQ_Settings.alwaysDrawImplicit = config.getBoolean("Always draw implicit dependency", Configuration.CATEGORY_GENERAL, false, "If true, always draw implicit dependency. This property can be changed by the GUI");
 
 		config.save();
 	}

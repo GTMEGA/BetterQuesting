@@ -18,6 +18,7 @@ betterquesting.title.party_invite=Invite Users
 betterquesting.title.select_theme=Select Theme
 betterquesting.title.importers=Importers
 betterquesting.title.submit_station=Submit Station
+betterquesting.title.completion=Completion: %d/%d
 
 betterquesting.btn.rewards=Rewards
 betterquesting.btn.tasks=Tasks
@@ -53,6 +54,11 @@ betterquesting.btn.claim_all=Claim All
 betterquesting.btn.zoom_fit=Zoom to Fit
 betterquesting.btn.lock_tray=Lock Tray
 betterquesting.btn.view_mode=View Mode
+betterquesting.btn.view_mode_btn=View Mode Button
+betterquesting.btn.always_draw_implicit=Always Draw Implicit Dependency
+betterquesting.btn.prereq_visbility.normal=Normal Visibility
+betterquesting.btn.prereq_visbility.implicit=Hidden unless hovering over or holding shift
+betterquesting.btn.prereq_visbility.hidden=Hidden regardless of user input
 
 betterquesting.home.exit=Exit
 betterquesting.home.quests=Quests
@@ -97,6 +103,8 @@ betterquesting.tooltip.auto_claim=Auto Claim: %s
 betterquesting.tooltip.repeat=Cooldown: %s
 betterquesting.tooltip.repeat_with_edit_mode=Edit mode enabled, repeatable quests won't reset
 betterquesting.tooltip.update_quests=Update Available!%n§7A new quest line version is available.%nClick to install and migrate progress.
+betterquesting.tooltip.cycle.true=Click to disable
+betterquesting.tooltip.cycle.false=Click to enable
 
 betterquesting.notice.complete=Quest Complete
 betterquesting.notice.update=Quest Updated
@@ -119,6 +127,7 @@ item.betterquesting.extra_life.quarter.name=Quarter Heart
 item.betterquesting.guide.name=Better Questing Starter Guide
 
 tile.betterquesting.submit_station.name=Object Submission Station (OSS)
+tile.betterquesting.observation_station.name=Object Observation Station (OOS)
 
 betterquesting.btn.help1=Navigation
 betterquesting.btn.help2=OSS Block
@@ -185,6 +194,7 @@ betterquesting.cmd.default.none=Quest database not found
 betterquesting.cmd.delete.single=Deleted quest %s
 betterquesting.cmd.delete.all=Deleted all quests
 betterquesting.cmd.edit=Edit mode %s
+betterquesting.cmd.view=View mode button %s
 betterquesting.cmd.hardcore=Hardcore mode %s
 betterquesting.cmd.purge_hidden=Deleted %s hidden quest(s)
 
@@ -203,6 +213,9 @@ betterquesting.cmd.reset.all_single=Reset quest '%s' for everyone
 betterquesting.cmd.reset.all_all=Reset all quests for everyone
 betterquesting.cmd.refresh=Refreshing local database...
 
+betterquesting.cmd.cleanup_questline.confirm=This is a dangerous operation. Please confirm you have made a backup before doing this. Type this command again to actually start cleanup.
+betterquesting.cmd.cleanup_questline.completed=Removed %d entries
+
 json.betterquesting.quest.name=Quest Data
 jdoc.betterquesting.quest.rewards.name=Rewards
 jdoc.betterquesting.quest.rewards.desc=List of configurable rewards types
@@ -215,3 +228,7 @@ jdoc.betterquesting.quest.properties.desc=Properties defining the quest's appear
 
 jdoc.betterquesting.quest.properties.betterquesting.name=BetterQuesting
 jdoc.betterquesting.quest.properties.betterquesting.desc=BetterQuesting properties
+
+betterquesting.notification.enabled=Quest Notifications: On
+betterquesting.notification.disabled=Quest Notifications: Off
+betterquesting.notification.tooltip=Toggle Quest Notifications

@@ -4,16 +4,18 @@ import betterquesting.api.enums.EnumQuestState;
 import betterquesting.api.properties.IPropertyContainer;
 import betterquesting.api.questing.rewards.IReward;
 import betterquesting.api.questing.tasks.ITask;
+import betterquesting.api2.client.gui.themes.presets.PresetIcon;
 import betterquesting.api2.storage.IDatabaseNBT;
 import betterquesting.api2.storage.INBTProgress;
 import betterquesting.api2.storage.INBTSaveLoad;
-import net.minecraft.entity.Entity;
+import betterquesting.api2.utils.QuestTranslation;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Locale;
 import java.util.UUID;
 
 public interface IQuest extends INBTSaveLoad<NBTTagCompound>, INBTProgress<NBTTagCompound>, IPropertyContainer
@@ -54,4 +56,44 @@ public interface IQuest extends INBTSaveLoad<NBTTagCompound>, INBTProgress<NBTTa
 	@Nonnull
 	int[] getRequirements();
 	void setRequirements(@Nonnull int[] req);
+
+	@Nonnull
+	RequirementType getRequirementType(int req);
+	void setRequirementType(int req, @Nonnull RequirementType kind);
+
+	enum RequirementType {
+		NORMAL(PresetIcon.ICON_VISIBILITY_NORMAL),
+		IMPLICIT(PresetIcon.ICON_VISIBILITY_IMPLICIT),
+		HIDDEN(PresetIcon.ICON_VISIBILITY_HIDDEN);
+
+		private final PresetIcon icon;
+		private final String buttonTooltip;
+
+		private static final RequirementType[] VALUES = values();
+
+		RequirementType(PresetIcon icon) {
+			this.icon = icon;
+			buttonTooltip = "betterquesting.btn.prereq_visbility." + name().toLowerCase(Locale.ROOT);
+		}
+
+		public byte id() {
+			return (byte) ordinal();
+		}
+
+		public PresetIcon getIcon() {
+			return icon;
+		}
+
+		public String getButtonTooltip() {
+			return QuestTranslation.translate(buttonTooltip);
+		}
+
+		public RequirementType next() {
+			return VALUES[(ordinal()+1) % VALUES.length];
+		}
+
+		public static RequirementType from(byte id) {
+			return id >=0 && id < VALUES.length ? VALUES[id] : NORMAL;
+		}
+	}
 }
